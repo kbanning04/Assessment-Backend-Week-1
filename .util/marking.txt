@@ -7,14 +7,10 @@ days_api/test_api.py ..........F..............................F......FFF [ 45%]
 FFF.FFFFFF............                                                   [ 65%]
 days_api/test_date_functions.py .......................................  [100%]
 
-======================== 14 failed, 98 passed in 0.30s =========================
+======================== 14 failed, 98 passed in 0.26s =========================
 ************* Module app
-days_api/app.py:49:8: W0612: Unused variable 'e' (unused-variable)
-days_api/app.py:66:8: W0612: Unused variable 'e' (unused-variable)
-days_api/app.py:82:8: W0612: Unused variable 'e' (unused-variable)
-days_api/app.py:108:8: W0612: Unused variable 'e' (unused-variable)
 days_api/app.py:7:0: W0611: Unused Response imported from flask (unused-import)
 
 -----------------------------------
-Your code has been rated at 9.53/10
+Your code has been rated at 9.91/10
 
