@@ -69,6 +69,31 @@ def get_weekday():
     return {"error": "Method not defined"}, 405
 
 
+@app.route("/history", methods=["GET", "DELETE"])
+def get_history():
+    if request.method == "GET":
+        number = request.args.get("number")
+        if number is None:
+            number = 5
+        try:
+            number = int(number)
+        except ValueError as e:
+            return {"error": "Number must be an integer between 1 and 20."}, 400
+        if number > 20 or number < 1:
+            return {"error": "Number must be an integer between 1 and 20."}, 400
+        i = number
+        history_length = len(app_history)
+        returned_list = []
+        while i <= history_length:
+            returned_list.append(app_history[i])
+            i += 1
+        return returned_list
+    if request.method == "DELETE":
+        clear_history()
+        return {"status": "History cleared"}
+    return {"error": "Method not defined"}, 405
+
+
 if __name__ == "__main__":
     app.config['TESTING'] = True
     app.config['DEBUG'] = True
