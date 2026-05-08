@@ -35,7 +35,7 @@ def index():
 
 
 @app.route("/between", methods=["POST"])
-def get_days_between_two() -> date:
+def between() -> date:
     """ Gets the number of days between two dates. """
     if request.method == "POST":
         dates = request.json
@@ -56,7 +56,7 @@ def get_days_between_two() -> date:
 
 
 @app.route("/weekday", methods=["POST"])
-def get_weekday():
+def weekday():
     """ Returns which day of a week a date is. """
     if request.method == "POST":
         weekday_date_response = request.json
@@ -73,7 +73,7 @@ def get_weekday():
 
 
 @app.route("/history", methods=["GET", "DELETE"])
-def get_history():
+def history():
     """ Returns the last n requests made. """
     if request.method == "GET":
         number = request.args.get("number")
@@ -85,13 +85,12 @@ def get_history():
             return {"error": "Number must be an integer between 1 and 20."}, 400
         if number > 20 or number < 1:
             return {"error": "Number must be an integer between 1 and 20."}, 400
-        i = number
-        history_length = len(app_history)
-        returned_list = []
-        while i <= history_length:
-            returned_list.append(app_history[i])
-            i += 1
-        return returned_list
+        add_to_history(request)
+        app_history.reverse()
+        app_history_length = len(app_history)
+        if number >= app_history_length:
+            return app_history, 200
+        return app_history[app_history_length - number], 200
     if request.method == "DELETE":
         clear_history()
         return {"status": "History cleared"}
@@ -99,7 +98,7 @@ def get_history():
 
 
 @app.route("/current_age", methods=["GET"])
-def gets_current_age():
+def current_age():
     """ Returns the current age when given a birthdate. """
     if request.method == "GET":
         wrong_format_date = request.args.get("date")
@@ -110,6 +109,7 @@ def gets_current_age():
         except ValueError:
             return {"error": "Value for date parameter is invalid."}, 400
         age = get_current_age(birth_date)
+        add_to_history(request)
         return {"current_age": age}
     return {"error": "Method not defined"}, 405
 
