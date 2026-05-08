@@ -3,14 +3,15 @@ platform linux -- Python 3.14.4, pytest-9.0.3, pluggy-1.6.0
 rootdir: /home/runner/work/Assessment-Backend-Week-1/Assessment-Backend-Week-1
 collected 112 items
 
-days_api/test_api.py ..........F..............................F......FFF [ 45%]
-FFF.FFFFFF............                                                   [ 65%]
+days_api/test_api.py ................................................FF. [ 45%]
+FFF...................                                                   [ 65%]
 days_api/test_date_functions.py .......................................  [100%]
 
-======================== 14 failed, 98 passed in 0.26s =========================
+======================== 5 failed, 107 passed in 0.25s =========================
 ************* Module app
+days_api/app.py:69:8: W0621: Redefining name 'weekday' from outer scope (line 59) (redefined-outer-name)
 days_api/app.py:7:0: W0611: Unused Response imported from flask (unused-import)
 
 -----------------------------------
-Your code has been rated at 9.91/10
+Your code has been rated at 9.81/10
 
