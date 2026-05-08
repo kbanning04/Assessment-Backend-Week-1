@@ -7,7 +7,7 @@ from datetime import datetime, date
 from flask import Flask, Response, request, jsonify
 
 from date_functions import (convert_to_datetime, get_day_of_week_on,
-                            get_days_between, get_current_age)
+                            get_days_between, get_current_age, convert_weird_format)
 
 app_history = []
 
@@ -56,6 +56,7 @@ def get_days_between_two() -> date:
 
 @app.route("/weekday", methods=["POST"])
 def get_weekday():
+    """ Returns which day of a week a date is. """
     if request.method == "POST":
         weekday_date_response = request.json
         if "date" not in weekday_date_response:
@@ -71,6 +72,7 @@ def get_weekday():
 
 @app.route("/history", methods=["GET", "DELETE"])
 def get_history():
+    """ Returns the last n requests made. """
     if request.method == "GET":
         number = request.args.get("number")
         if number is None:
@@ -91,6 +93,22 @@ def get_history():
     if request.method == "DELETE":
         clear_history()
         return {"status": "History cleared"}
+    return {"error": "Method not defined"}, 405
+
+
+@app.route("/current_age", methods=["GET"])
+def gets_current_age():
+    """ Returns the current age when given a birthdate. """
+    if request.method == "GET":
+        wrong_format_date = request.args.get("date")
+        if wrong_format_date is None:
+            return {"error": "Date parameter is required."}, 400
+        try:
+            birth_date = convert_weird_format(wrong_format_date)
+        except ValueError as e:
+            return {"error": "Value for date parameter is invalid."}, 400
+        age = get_current_age(birth_date)
+        return {"current_age": age}
     return {"error": "Method not defined"}, 405
 
 

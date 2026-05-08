@@ -45,3 +45,12 @@ def get_current_age(birthdate: date) -> int:
     current_day = date.today()
     delta = (current_day - birthdate).days // 365.25
     return round(delta)
+
+
+def convert_weird_format(date_val: str) -> datetime:
+    """ Converts YYYY-MM-DD to a date. """
+    try:
+        datetime_format = datetime.strptime(f"{date_val}", "%Y-%m-%d")
+    except ValueError as e:
+        raise ValueError("Unable to convert value to datetime.") from e
+    return datetime_format.date()
