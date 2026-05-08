@@ -22,6 +22,7 @@ def add_to_history(current_request):
         "route": current_request.endpoint
     })
 
+
 def clear_history():
     """Clears the app history."""
     app_history.clear()
@@ -29,8 +30,27 @@ def clear_history():
 
 @app.get("/")
 def index():
-    """Returns an API welcome messsage."""
+    """Returns an API welcome message."""
     return jsonify({"message": "Welcome to the Days API."})
+
+
+@app.route("/between", methods=["POST"])
+def get_days_between_two() -> date:
+    if request.method == "POST":
+        dates = request.json
+        if "first" not in dates or "last" not in dates:
+            return {"error": "Missing required data."}, 400
+        first = dates["first"]
+        last = dates["last"]
+        try:
+            first_date = convert_to_datetime(first)
+            last_date = convert_to_datetime(last)
+        except ValueError as e:
+            return {"error": "Unable to convert value to datetime."}, 400
+
+        days_between = get_days_between(first_date, last_date)
+        return {"days": days_between}
+    return {"error": "Method not defined"}, 405
 
 
 if __name__ == "__main__":
