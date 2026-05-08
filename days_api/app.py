@@ -46,7 +46,7 @@ def get_days_between_two() -> date:
         try:
             first_date = convert_to_datetime(first)
             last_date = convert_to_datetime(last)
-        except ValueError as e:
+        except ValueError:
             return {"error": "Unable to convert value to datetime."}, 400
 
         days_between = get_days_between(first_date, last_date)
@@ -63,7 +63,7 @@ def get_weekday():
             return {"error": "Missing required data."}, 400
         try:
             weekday_date = convert_to_datetime(weekday_date_response["date"])
-        except ValueError as e:
+        except ValueError:
             return {"error": "Unable to convert value to datetime."}, 400
         weekday = get_day_of_week_on(weekday_date)
         return {"weekday": weekday}
@@ -79,7 +79,7 @@ def get_history():
             number = 5
         try:
             number = int(number)
-        except ValueError as e:
+        except ValueError:
             return {"error": "Number must be an integer between 1 and 20."}, 400
         if number > 20 or number < 1:
             return {"error": "Number must be an integer between 1 and 20."}, 400
@@ -105,7 +105,7 @@ def gets_current_age():
             return {"error": "Date parameter is required."}, 400
         try:
             birth_date = convert_weird_format(wrong_format_date)
-        except ValueError as e:
+        except ValueError:
             return {"error": "Value for date parameter is invalid."}, 400
         age = get_current_age(birth_date)
         return {"current_age": age}
