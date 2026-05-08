@@ -66,9 +66,9 @@ def weekday():
             weekday_date = convert_to_datetime(weekday_date_response["date"])
         except ValueError:
             return {"error": "Unable to convert value to datetime."}, 400
-        weekday = get_day_of_week_on(weekday_date)
+        weekday_word = get_day_of_week_on(weekday_date)
         add_to_history(request)
-        return {"weekday": weekday}
+        return {"weekday": weekday_word}
     return {"error": "Method not defined"}, 405
 
 
@@ -86,7 +86,6 @@ def history():
         if number > 20 or number < 1:
             return {"error": "Number must be an integer between 1 and 20."}, 400
         add_to_history(request)
-        app_history.reverse()
         app_history_length = len(app_history)
         if number >= app_history_length:
             return app_history, 200
