@@ -88,8 +88,12 @@ def history():
         add_to_history(request)
         app_history_length = len(app_history)
         if number >= app_history_length:
-            return app_history, 200
-        return app_history[app_history_length - number], 200
+            smaller_history = app_history.copy()
+            smaller_history.reverse()
+            return smaller_history, 200
+        smaller_history = app_history[app_history_length - number]
+        smaller_history.reverse()
+        return smaller_history, 200
     if request.method == "DELETE":
         clear_history()
         return {"status": "History cleared"}
