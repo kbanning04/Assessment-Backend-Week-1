@@ -36,6 +36,7 @@ def index():
 
 @app.route("/between", methods=["POST"])
 def get_days_between_two() -> date:
+    """ Gets the number of days between two dates. """
     if request.method == "POST":
         dates = request.json
         if "first" not in dates or "last" not in dates:
@@ -50,6 +51,21 @@ def get_days_between_two() -> date:
 
         days_between = get_days_between(first_date, last_date)
         return {"days": days_between}
+    return {"error": "Method not defined"}, 405
+
+
+@app.route("/weekday", methods=["POST"])
+def get_weekday():
+    if request.method == "POST":
+        weekday_date_response = request.json
+        if "date" not in weekday_date_response:
+            return {"error": "Missing required data."}, 400
+        try:
+            weekday_date = convert_to_datetime(weekday_date_response["date"])
+        except ValueError as e:
+            return {"error": "Unable to convert value to datetime."}, 400
+        weekday = get_day_of_week_on(weekday_date)
+        return {"weekday": weekday}
     return {"error": "Method not defined"}, 405
 
 
