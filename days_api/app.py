@@ -50,6 +50,7 @@ def get_days_between_two() -> date:
             return {"error": "Unable to convert value to datetime."}, 400
 
         days_between = get_days_between(first_date, last_date)
+        add_to_history(request)
         return {"days": days_between}
     return {"error": "Method not defined"}, 405
 
@@ -66,6 +67,7 @@ def get_weekday():
         except ValueError:
             return {"error": "Unable to convert value to datetime."}, 400
         weekday = get_day_of_week_on(weekday_date)
+        add_to_history(request)
         return {"weekday": weekday}
     return {"error": "Method not defined"}, 405
 
